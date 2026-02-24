@@ -1,216 +1,170 @@
-/* ====== HARD SIZE: 980 x 280 ====== */
-:root{
-  --w: 980px;
-  --h: 280px;
-
-  --border: rgba(180, 0, 0, 0.25);
-  --red: #b30000;
-  --bg: #ffffff;
-  --gap: 12px;
-  --radius: 14px;
-}
-
+/* ===== reset / base ===== */
 * { box-sizing: border-box; }
-html, body { margin:0; padding:0; background:#fff; font-family: Arial, Helvetica, sans-serif; }
-
-/* Wrapper (pokrivam više mogućih naziva) */
-.widget,
-.weather-widget,
-#widget,
-#weatherWidget{
-  width: var(--w);
-  height: var(--h);
-  background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;               /* KLJUČ: forecast ne sme “ispod” */
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: #fff;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #a11;
 }
 
-/* Glavni layout: levo/desno */
-.widget .container,
-.weather-widget .container,
-#widget .container,
-#weatherWidget .container,
-.widget .wrap,
-.weather-widget .wrap{
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 360px 1fr;  /* levo 360, desno ostatak */
-  gap: var(--gap);
-  padding: var(--gap);
+/* ===== widget frame ===== */
+.widget {
+  width: 980px;
+  height: 280px;
+  padding: 18px 18px;
+  border: 2px solid rgba(161, 17, 17, 0.25);
+  border-radius: 22px;
+  display: flex;
+  gap: 18px;
+  overflow: hidden; /* ključ: ništa ne sme da “izađe” */
 }
 
-/* LEFT panel */
-.left{
-  height: 100%;
-  display: grid;
-  grid-template-rows: 34px 1fr 22px;
-  align-items: start;
+/* ===== left side ===== */
+.left {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.city, .location, #city{
-  font-size: 40px;
+.place {
+  font-size: 44px;
   font-weight: 800;
-  color: var(--red);
-  line-height: 34px;
+  line-height: 1;
+  margin-bottom: 10px;
 }
 
-.left .main,
-.left .now,
-.left .current{
-  display: grid;
-  grid-template-columns: 1fr 120px;
+.tempRow {
+  display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
+  margin-bottom: 8px;
 }
 
-/* Temp + C */
-.temp, #temp{
+.temp {
   font-size: 96px;
   font-weight: 900;
-  color: var(--red);
-  line-height: 1;
-  white-space: nowrap;
+  line-height: 0.95;
+  letter-spacing: -2px;
 }
-.temp .unit { font-size: 56px; font-weight: 900; }
 
-.desc, #desc{
-  margin-top: 6px;
+.wicon {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+}
+
+.desc {
   font-size: 34px;
   font-weight: 800;
-  color: var(--red);
-  line-height: 1.05;
+  line-height: 1.1;
+  margin-top: 4px;
 }
 
-/* Ikonica sadašnje prognoze */
-.icon, #icon, .wxIcon, img#weatherIcon{
-  width: 92px;
-  height: 92px;
-  object-fit: contain;   /* da ne bude “loše” rastegnuto */
-  opacity: 0.9;
-  justify-self: end;
-}
-
-/* Ažurirano */
-.updated, #updated, .stamp{
+.updated {
+  margin-top: 6px;
   font-size: 16px;
-  color: var(--red);
-  font-weight: 700;
-  align-self: end;
+  opacity: 0.85;
 }
 
-/* RIGHT panel: 2 reda (stats + forecast) */
-.right{
-  height: 100%;
-  display: grid;
-  grid-template-rows: 118px 1fr;  /* gore stats, dole forecast */
-  gap: var(--gap);
+.error {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #a11;
 }
 
-/* ====== STATS: 3 boxa u gridu ====== */
-.stats, .topStats, .metrics{
-  height: 118px;
+/* ===== right side ===== */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0; /* sprečava overflow zbog dugih tekstova */
+}
+
+/* ===== stats ===== */
+.stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 1fr;
-  gap: var(--gap);
+  gap: 10px 12px;
 }
 
-/* Ako ti je treći box “pun red”, lepo ide u drugi red */
-.stat, .metric, .box{
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 12px;
-  display: grid;
-  grid-template-rows: 22px 1fr;
-  background: #fff;
+.statBox, .statWide {
+  border: 2px solid rgba(161, 17, 17, 0.25);
+  border-radius: 14px;
+  padding: 12px 14px;
 }
 
-.stat .label, .metric .label, .box .label,
-.hLabel, .titleSmall{
-  font-size: 18px;
+.statWide {
+  grid-column: 1 / -1; /* pritisak ide preko cele širine */
+}
+
+.label {
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: 1px;
-  color: var(--red);
-  text-transform: uppercase;
 }
 
-.stat .value, .metric .value, .box .value,
-.hValue, .bigValue{
+.value {
+  margin-top: 6px;
   font-size: 34px;
   font-weight: 900;
-  color: var(--red);
-  align-self: center;
+  line-height: 1;
 }
 
-/* Pritisak da bude širi (ako ima klasu pressure) */
-.stat.pressure, .metric.pressure, .box.pressure,
-#pressureBox{
-  grid-column: 1 / -1;
-}
-
-/* ====== FORECAST: 3 dana uvek staju u widget ====== */
-.forecast, .days, .bottomForecast{
-  height: 100%;
-  border: 2px solid transparent;
+/* ===== forecast ===== */
+.forecast {
+  flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap);
+  gap: 12px;
   align-items: stretch;
 }
 
-/* Kartica za dan */
-.day, .forecast-day, .dcard{
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 8px 10px;
-  display: grid;
-  grid-template-rows: 24px 1fr 30px;
-  background: #fff;
-  min-height: 0; /* da grid ne gura dole */
+.fcard {
+  border: 2px solid rgba(161, 17, 17, 0.25);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
 }
 
-/* Oznaka dana (SRE/ČET/PET...) */
-.day .dow, .forecast-day .dow, .dcard .dow,
-.day .label, .dcard .label{
-  font-size: 16px;
+.fday {
+  font-size: 18px;
   font-weight: 900;
-  color: var(--red);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-align: center;
+  letter-spacing: 0.5px;
 }
 
-/* Forecast ikonica */
-.day img, .forecast-day img, .dcard img{
-  width: 44px;
-  height: 44px;
+.frow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ficon {
+  width: 36px;
+  height: 36px;
   object-fit: contain;
-  justify-self: center;
-  align-self: center;
-  opacity: 0.95;
 }
 
-/* Temp forecast */
-.day .t, .forecast-day .t, .dcard .t,
-.day .tempSmall, .dcard .tempSmall{
-  font-size: 30px;
+.ftemp {
+  font-size: 26px;
   font-weight: 900;
-  color: var(--red);
-  text-align: center;
-  line-height: 1;
 }
 
-/* Ako ti update text ulazi u forecast – stavi ga apsolutno u donji desni ugao */
-.cornerStamp, #cornerStamp{
-  position: absolute;
-  right: 10px;
-  bottom: 8px;
+/* Ako JS ubaci opis u karticu */
+.fdesc {
   font-size: 14px;
-  font-weight: 800;
-  color: rgba(179,0,0,0.75);
+  font-weight: 700;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-/* Sitni fix: da ništa ne preliva */
-.left, .right, .stats, .forecast { min-height: 0; }

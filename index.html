@@ -4,24 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=980, initial-scale=1" />
   <title>Weather Widget 980x280</title>
-  <link rel="icon" href="data:,"> <!-- da ukloni favicon 404 -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="widget" role="application" aria-label="Vremenska prognoza">
-    <div class="bg"></div>
-    <div class="noise"></div>
-
     <section class="left">
       <div class="place" id="place">Zlatibor</div>
 
-      <div class="hero">
+      <div class="tempRow">
         <div class="temp" id="temp">--°C</div>
-
-        <div class="iconWrap">
-          <div class="iconGlow"></div>
-          <img class="wicon" id="icon" alt="Vremenska ikonica" src="" />
-        </div>
+        <img class="wicon" id="icon" alt="Vremenska ikonica" src="" />
       </div>
 
       <div class="desc" id="desc">Učitavanje...</div>
@@ -30,7 +22,7 @@
     </section>
 
     <section class="right">
-      <div class="statsRow">
+      <div class="stats">
         <div class="statBox">
           <div class="label">VLAŽNOST</div>
           <div class="value" id="humidity">--%</div>

@@ -1,5 +1,5 @@
 // ====== CONFIG ======
-const OPENWEATHER_KEY = "PASTE_YOUR_API_KEY_HERE";
+const OPENWEATHER_KEY = "9bb7a02ea40acb07661d518df8289ac2";
 
 // Zlatibor (približno). Ako hoćeš tačne koordinate hotela -> zameni.
 const LAT = 43.7286;
@@ -110,4 +110,5 @@ async function fetchWeather(){
 }
 
 fetchWeather();
+
 setInterval(fetchWeather, REFRESH_MIN * 60 * 1000);

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weather Widget 980x280</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div id="widget" class="widget">
+    <div class="left">
+      <div class="place" id="place">Zlatibor</div>
+      <div class="tempRow">
+        <div class="temp" id="temp">--°C</div>
+        <img id="icon" class="icon" alt="" />
+      </div>
+      <div class="desc" id="desc">Učitavanje prognoze…</div>
+    </div>
+
+    <div class="right">
+      <div class="stats">
+        <div class="stat"><span class="k">Vlažnost</span><span class="v" id="hum">--%</span></div>
+        <div class="stat"><span class="k">Vetar</span><span class="v" id="wind">-- km/h</span></div>
+        <div class="stat"><span class="k">Pritisak</span><span class="v" id="press">---- hPa</span></div>
+      </div>
+
+      <div class="forecast" id="forecast"></div>
+    </div>
+
+    <div class="footer">
+      <span id="updated">—</span>
+    </div>
+  </div>
+</body>
+</html>

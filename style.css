@@ -1,70 +1,176 @@
-/* 980 x 280 */
 :root{
-  --w: 980px;
-  --h: 280px;
-  --fg: #b10b0b;          /* tvoja crvena iz vizuala (prilagodi) */
-  --muted: rgba(177,11,11,.75);
-  --card: rgba(255,255,255,.78); /* poluprovidno - lepo preko pozadine */
-  --border: rgba(177,11,11,.25);
+  --red: #b10f0f;
+  --red-soft: rgba(177, 15, 15, 0.22);
+  --red-soft2: rgba(177, 15, 15, 0.12);
+  --bg: #ffffff;
+  --text: #111;
 }
 
-html,body{height:100%; margin:0; background:transparent; font-family: Arial, Helvetica, sans-serif;}
+*{ box-sizing: border-box; }
+html, body { margin:0; padding:0; background: var(--bg); font-family: Arial, Helvetica, sans-serif; }
+
 .widget{
-  width: var(--w);
-  height: var(--h);
-  box-sizing: border-box;
-  background: var(--card);
-  border: 2px solid var(--border);
-  border-radius: 18px;
-  padding: 18px 22px 14px;
-  color: var(--fg);
-  display:flex;
-  gap: 18px;
+  width: 980px;
+  height: 280px;
   position: relative;
-  overflow:hidden;
+  overflow: hidden;
+  background: var(--bg);
+  border: 2px solid var(--red-soft);
+  border-radius: 18px;
 }
 
-.left{flex: 0 0 44%; display:flex; flex-direction:column; justify-content:center;}
-.place{font-size: 26px; font-weight: 700; letter-spacing:.2px;}
-.tempRow{display:flex; align-items:center; gap:14px; margin-top: 6px;}
-.temp{font-size: 96px; line-height: 0.95; font-weight: 800;}
-.icon{width: 92px; height: 92px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.10));}
-.desc{font-size: 22px; font-weight: 600; color: var(--muted); margin-top: 6px; text-transform: capitalize;}
+.top{
+  height: 100%;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 14px;
+  padding: 14px 14px 36px 14px; /* ostavi prostor dole za "Ažurirano" */
+}
 
-.right{flex: 1; display:flex; flex-direction:column; justify-content:space-between; padding-top: 8px;}
-.stats{display:flex; gap: 14px; flex-wrap:wrap;}
-.stat{
-  flex:1 1 30%;
-  background: rgba(255,255,255,.65);
-  border: 1px solid var(--border);
+.left{
+  border-radius: 16px;
+  padding: 10px 10px 10px 10px;
+}
+
+.city{
+  color: var(--red);
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+}
+
+.tempRow{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 2px 0 6px 0;
+}
+
+.temp{
+  color: var(--red);
+  font-weight: 800;
+  font-size: 92px;
+  line-height: 1;
+}
+
+.iconMain{
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  image-rendering: auto;
+  filter: none;
+}
+
+.desc{
+  color: var(--red);
+  font-weight: 700;
+  font-size: 28px;
+  margin-top: 6px;
+}
+
+.right{
+  display: grid;
+  grid-template-rows: auto 86px;
+  gap: 10px;
+  align-content: start;
+}
+
+.metrics{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.metricCard{
+  border: 2px solid var(--red-soft);
   border-radius: 14px;
   padding: 10px 12px;
-  min-width: 150px;
+  background: var(--bg);
 }
-.k{display:block; font-size: 14px; color: var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.8px;}
-.v{display:block; font-size: 22px; font-weight:800; margin-top: 4px;}
+
+.metricWide{
+  grid-column: 1 / span 2;
+}
+
+.metricLabel{
+  color: var(--red);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+}
+
+.metricValue{
+  color: var(--red);
+  font-weight: 800;
+  font-size: 28px;
+  margin-top: 6px;
+}
 
 .forecast{
-  display:flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-top: 10px;
+  height: 86px;
+  align-items: stretch;
 }
-.day{
-  flex:1;
-  background: rgba(255,255,255,.65);
-  border: 1px solid var(--border);
+
+.forecastCard{
+  border: 2px solid var(--red-soft);
   border-radius: 14px;
-  padding: 10px 10px;
-  text-align:center;
+  padding: 8px 10px;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
+  column-gap: 8px;
+  align-items: center;
 }
-.dow{font-size: 14px; font-weight:800; color: var(--muted); letter-spacing:.6px; text-transform:uppercase;}
-.ficon{width: 44px; height: 44px; margin: 6px auto 2px; display:block;}
-.minmax{font-size: 18px; font-weight:800;}
-.footer{
-  position:absolute;
-  bottom: 8px;
+
+.fDay{
+  color: var(--red);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.fTemp{
+  color: var(--red);
+  font-weight: 900;
+  font-size: 26px;
+}
+
+.iconSmall{
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.updated{
+  position: absolute;
   right: 14px;
+  bottom: 10px;
+  color: var(--red);
   font-size: 12px;
-  color: rgba(177,11,11,.55);
-  font-weight:700;
+  opacity: 0.75;
+  font-weight: 700;
 }
+
+.error{
+  position: absolute;
+  left: 14px;
+  bottom: 10px;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.9;
+  max-width: 720px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* sigurnosno: da nikad ne “pobegne” sadržaj van 980x280 */
+.widget * { min-width: 0; }

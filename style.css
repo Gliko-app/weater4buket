@@ -2,16 +2,13 @@
   --fg: #f3f6ff;
   --muted: rgba(243,246,255,.78);
 
-  --stroke: rgba(255,255,255,.12);
+  /* jači kontrast na tamnom glass-u */
+  --stroke: rgba(255,255,255,.16);
 
-  /* glass */
-  --glass: rgba(255,255,255,.12);
-  --glass2: rgba(255,255,255,.18);
+  /* DARK GLASS (da se vidi) */
+  --glass: rgba(10, 16, 30, .55);
+  --glass2: rgba(18, 26, 48, .70);
 
-  /* accent */
-  --accent: #8fb6ff;
-
-  /* layout */
   --w: 980px;
   --h: 280px;
 
@@ -19,7 +16,6 @@
   --gap: 10px;
 }
 
-/* TRANSPARENT CANVAS */
 html, body{
   width: 100%;
   height: 100%;
@@ -38,22 +34,22 @@ html, body{
   gap: var(--gap);
   padding: 10px;
   box-sizing: border-box;
-
-  /* NEMA background-a da bude transparent */
-  background: transparent;
+  background: transparent; /* pozadina transparentna */
 }
 
-/* LEFT PANEL */
+/* LEFT */
 .left{
   height: calc(var(--h) - 20px);
   border-radius: var(--radius);
   padding: 18px 18px 14px;
   box-sizing: border-box;
 
-  /* malo “glow” ali i dalje transparentno iza */
-  background: radial-gradient(120% 120% at 20% 20%, rgba(143,182,255,.22), rgba(0,0,0,0));
+  background:
+    radial-gradient(120% 120% at 20% 20%, rgba(90,140,255,.22), rgba(0,0,0,0)),
+    linear-gradient(180deg, var(--glass2), var(--glass));
   border: 1px solid var(--stroke);
   backdrop-filter: blur(10px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.35);
 }
 
 .place{
@@ -83,8 +79,8 @@ html, body{
   height: 78px;
   object-fit: contain;
   filter:
-    drop-shadow(0 10px 18px rgba(0,0,0,.35))
-    drop-shadow(0 0 18px rgba(143,182,255,.35));
+    drop-shadow(0 10px 18px rgba(0,0,0,.55))
+    drop-shadow(0 0 18px rgba(90,140,255,.35));
 }
 
 .desc{
@@ -106,15 +102,15 @@ html, body{
   color: #ffb3b3;
 }
 
-/* RIGHT PANEL */
+/* RIGHT */
 .right{
   height: calc(var(--h) - 20px);
   display: grid;
-  grid-template-rows: 78px 1fr; /* kompaktan top + forecast ispod */
+  grid-template-rows: 78px 1fr; /* top stats + forecast */
   gap: var(--gap);
 }
 
-/* TOP STATS: 3 kartice u JEDNOM redu (kompaktno) */
+/* 3 kartice u 1 redu */
 .stats{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -129,6 +125,7 @@ html, body{
   background: linear-gradient(180deg, var(--glass2), var(--glass));
   border: 1px solid var(--stroke);
   backdrop-filter: blur(10px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.28);
 
   display: grid;
   grid-template-rows: 16px 1fr;
@@ -138,11 +135,11 @@ html, body{
   font-size: 13px;
   letter-spacing: .14em;
   font-weight: 800;
-  color: rgba(243,246,255,.75);
+  color: rgba(243,246,255,.78);
 }
 
 .value{
-  font-size: 34px; /* manje da stane u 78px */
+  font-size: 34px;
   font-weight: 900;
   line-height: 1;
   margin-top: 4px;
@@ -164,6 +161,7 @@ html, body{
   background: linear-gradient(180deg, var(--glass2), var(--glass));
   border: 1px solid var(--stroke);
   backdrop-filter: blur(10px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.28);
 
   display: grid;
   grid-template-rows: 16px 1fr 18px;
@@ -174,7 +172,7 @@ html, body{
   font-size: 13px;
   letter-spacing: .14em;
   font-weight: 900;
-  color: rgba(243,246,255,.78);
+  color: rgba(243,246,255,.82);
 }
 
 .frow{
@@ -185,13 +183,12 @@ html, body{
 }
 
 .ficon{
-  width: 46px;
-  height: 46px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
   filter:
-    drop-shadow(0 10px 14px rgba(0,0,0,.30))
-    drop-shadow(0 0 14px rgba(143,182,255,.28));
-  opacity: .95;
+    drop-shadow(0 10px 14px rgba(0,0,0,.55))
+    drop-shadow(0 0 14px rgba(90,140,255,.25));
 }
 
 .ftemp{
@@ -202,14 +199,6 @@ html, body{
 
 .fminmax{
   font-size: 14px;
-  color: rgba(243,246,255,.72);
+  color: rgba(243,246,255,.78);
   font-weight: 700;
-}
-
-/* responsivnost (nije ključno za 980x280, ali nek bude) */
-@media (max-width: 980px){
-  .widget{
-    transform-origin: top left;
-    transform: scale(.9);
-  }
 }

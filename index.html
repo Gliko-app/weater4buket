@@ -2,35 +2,49 @@
 <html lang="sr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Weather Widget 980x280</title>
-  <link rel="stylesheet" href="./style.css" />
-  <script src="./app.js" defer></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <div id="widget" class="widget">
-    <div class="left">
-      <div class="place" id="place">Zlatibor</div>
-      <div class="tempRow">
-        <div class="temp" id="temp">--°C</div>
-        <img id="icon" class="icon" alt="" />
-      </div>
-      <div class="desc" id="desc">Učitavanje prognoze…</div>
+  <div class="widget" role="application" aria-label="Weather widget 980x280">
+    <div class="top">
+      <!-- LEFT -->
+      <section class="left">
+        <div class="city" id="city">Zlatibor</div>
+        <div class="tempRow">
+          <div class="temp" id="temp">--°C</div>
+          <img class="iconMain" id="iconMain" alt="" />
+        </div>
+        <div class="desc" id="desc">Učitavanje...</div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="right">
+        <div class="metrics">
+          <div class="metricCard">
+            <div class="metricLabel">VLAŽNOST</div>
+            <div class="metricValue" id="humidity">--%</div>
+          </div>
+          <div class="metricCard">
+            <div class="metricLabel">VETAR</div>
+            <div class="metricValue" id="wind">-- km/h</div>
+          </div>
+          <div class="metricCard metricWide">
+            <div class="metricLabel">PRITISAK</div>
+            <div class="metricValue" id="pressure">---- hPa</div>
+          </div>
+        </div>
+
+        <div class="forecast" id="forecast">
+          <!-- Popunjava JS -->
+        </div>
+      </section>
     </div>
 
-    <div class="right">
-      <div class="stats">
-        <div class="stat"><span class="k">Vlažnost</span><span class="v" id="hum">--%</span></div>
-        <div class="stat"><span class="k">Vetar</span><span class="v" id="wind">-- km/h</span></div>
-        <div class="stat"><span class="k">Pritisak</span><span class="v" id="press">---- hPa</span></div>
-      </div>
-
-      <div class="forecast" id="forecast"></div>
-    </div>
-
-    <div class="footer">
-      <span id="updated">—</span>
-    </div>
+    <div class="updated" id="updated">Ažurirano: --:--</div>
+    <div class="error" id="error" hidden></div>
   </div>
 </body>
 </html>

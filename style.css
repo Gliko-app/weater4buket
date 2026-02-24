@@ -17,10 +17,8 @@
 html,body{ height:100%; }
 body{
   margin:0;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  background:#0b1020;
+  background: transparent;
+}
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
@@ -240,3 +238,4 @@ body{
 @media (max-width: 980px){
   body{ align-items:flex-start; }
 }
+

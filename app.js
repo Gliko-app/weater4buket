@@ -19,7 +19,7 @@ const c2lMap = {
   "А":"A","Б":"B","В":"V","Г":"G","Д":"D","Ђ":"Đ","Е":"E","Ж":"Ž","З":"Z","И":"I","Ј":"J","К":"K","Л":"L","Љ":"Lj","М":"M","Н":"N","Њ":"Nj","О":"O","П":"P","Р":"R","С":"S","Т":"T","Ћ":"Ć","У":"U","Ф":"F","Х":"H","Ц":"C","Ч":"Č","Џ":"Dž","Ш":"Š",
   "а":"a","б":"b","в":"v","г":"g","д":"d","ђ":"đ","е":"e","ж":"ž","з":"z","и":"i","ј":"j","к":"k","л":"l","љ":"lj","м":"m","н":"n","њ":"nj","о":"o","п":"p","р":"r","с":"s","т":"t","ћ":"ć","у":"u","ф":"f","х":"h","ц":"c","ч":"č","џ":"dž","ш":"š"
 };
-function cyrToLat(str=""){
+function cyrToLat(str = ""){
   return str.split("").map(ch => c2lMap[ch] ?? ch).join("");
 }
 
@@ -31,38 +31,44 @@ function fmtUpdated(tsSec){
   return `Ažurirano: ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+// ---- ICONS: basmilius SVG + fallback to OpenWeather PNG ----
+function openWeatherPng(iconCode){
+  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+}
+
 function iconUrl(iconCode){
+  // Basmilius weather-icons (pouzdani nazivi)
   const map = {
-    "01d": "sun",
-    "01n": "moon",
+    "01d": "clear-day",
+    "01n": "clear-night",
 
-    "02d": "cloud-sun",
-    "02n": "cloud-moon",
+    "02d": "partly-cloudy-day",
+    "02n": "partly-cloudy-night",
 
-    "03d": "cloud",
-    "03n": "cloud",
+    "03d": "cloudy",
+    "03n": "cloudy",
 
-    "04d": "cloud",
-    "04n": "cloud",
+    "04d": "overcast",
+    "04n": "overcast",
 
-    "09d": "cloud-drizzle",
-    "09n": "cloud-drizzle",
+    "09d": "drizzle",
+    "09n": "drizzle",
 
-    "10d": "cloud-rain",
-    "10n": "cloud-rain",
+    "10d": "rain",
+    "10n": "rain",
 
-    "11d": "cloud-lightning",
-    "11n": "cloud-lightning",
+    "11d": "thunderstorms",
+    "11n": "thunderstorms",
 
-    "13d": "cloud-snow",
-    "13n": "cloud-snow",
+    "13d": "snow",
+    "13n": "snow",
 
-    "50d": "cloud-fog",
-    "50n": "cloud-fog"
+    "50d": "fog",
+    "50n": "fog"
   };
 
-  const icon = map[iconCode] || "cloud";
-
+  const icon = map[iconCode] || "cloudy";
+  // Ako želiš outline ikonice: zameni /fill/ sa /line/
   return `https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/svg/${icon}.svg`;
 }
 
@@ -103,20 +109,19 @@ function pickNext3DaysFromForecast(list){
     byDate.get(key).push(item);
   }
 
-  // uzmi naredne dane (preskoči “danas” ako je već kasno — ali ok i danas ako nema drugih)
   const keys = Array.from(byDate.keys()).sort();
-
   const now = new Date();
   const todayKey = now.toISOString().slice(0,10);
 
   const futureKeys = keys.filter(k => k >= todayKey).slice(0, 4); // today + 3
-  // hoćemo 3 dana unapred (najčešće sutra+2), ali ako nema dovoljno uzmi što ima
   const take = futureKeys.length >= 4 ? futureKeys.slice(1,4) : futureKeys.slice(0,3);
 
   const result = [];
 
   for (const k of take){
     const items = byDate.get(k) || [];
+    if (!items.length) continue;
+
     // nađi najbliži 12:00
     let best = items[0];
     let bestDiff = Infinity;
@@ -128,7 +133,8 @@ function pickNext3DaysFromForecast(list){
         best = it;
       }
     }
-    // izračunaj min/max tog dana iz svih slotova
+
+    // min/max tog dana iz svih slotova
     let min = Infinity, max = -Infinity;
     for (const it of items){
       min = Math.min(min, it.main.temp_min);
@@ -143,7 +149,7 @@ function pickNext3DaysFromForecast(list){
     });
   }
 
-  return result;
+  return result.slice(0, 3);
 }
 
 function renderForecast(days){
@@ -167,6 +173,7 @@ function renderForecast(days){
     const img = document.createElement("img");
     img.className = "ficon";
     img.alt = "Ikonica";
+    img.onerror = () => { img.src = openWeatherPng(d.icon); }; // fallback
     img.src = iconUrl(d.icon);
 
     const t = document.createElement("div");
@@ -221,7 +228,11 @@ async function loadWeather(){
     $("pressure").textContent = `${pres} hPa`;
     $("desc").textContent = descLat ? (descLat[0].toUpperCase() + descLat.slice(1)) : "-";
     $("updated").textContent = fmtUpdated(current.dt);
-    $("icon").src = iconUrl(icon);
+
+    // main icon + fallback
+    const mainIconEl = $("icon");
+    mainIconEl.onerror = () => { mainIconEl.src = openWeatherPng(icon); };
+    mainIconEl.src = iconUrl(icon);
 
     const next3 = pickNext3DaysFromForecast(forecast.list || []);
     renderForecast(next3);
@@ -235,4 +246,3 @@ async function loadWeather(){
 
 loadWeather();
 setInterval(loadWeather, REFRESH_MIN * 60 * 1000);
-

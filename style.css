@@ -165,3 +165,20 @@ html, body{ margin:0; padding:0; background:#fff; font-family: system-ui, -apple
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* kompatibilnost sa tvojim klasama iz app.js */
+.frow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.fminmax{
+  margin-top: 6px;
+  color: rgba(179,19,19,.75);
+  font-weight: 750;
+  font-size: 14px;
+  white-space: nowrap;
+}

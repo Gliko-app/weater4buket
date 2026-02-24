@@ -2,49 +2,49 @@
 <html lang="sr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=980, initial-scale=1" />
   <title>Weather Widget 980x280</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="widget" role="application" aria-label="Weather widget 980x280">
-    <div class="top">
-      <!-- LEFT -->
-      <section class="left">
-        <div class="city" id="city">Zlatibor</div>
-        <div class="tempRow">
-          <div class="temp" id="temp">--°C</div>
-          <img class="iconMain" id="iconMain" alt="" />
-        </div>
-        <div class="desc" id="desc">Učitavanje...</div>
-      </section>
+  <main class="widget" role="application" aria-label="Vremenska prognoza">
+    <section class="left">
+      <div class="place" id="place">Zlatibor</div>
 
-      <!-- RIGHT -->
-      <section class="right">
-        <div class="metrics">
-          <div class="metricCard">
-            <div class="metricLabel">VLAŽNOST</div>
-            <div class="metricValue" id="humidity">--%</div>
-          </div>
-          <div class="metricCard">
-            <div class="metricLabel">VETAR</div>
-            <div class="metricValue" id="wind">-- km/h</div>
-          </div>
-          <div class="metricCard metricWide">
-            <div class="metricLabel">PRITISAK</div>
-            <div class="metricValue" id="pressure">---- hPa</div>
-          </div>
+      <div class="tempRow">
+        <div class="temp" id="temp">--°C</div>
+        <img class="wicon" id="icon" alt="Vremenska ikonica" src="" />
+      </div>
+
+      <div class="desc" id="desc">Učitavanje...</div>
+      <div class="updated" id="updated"></div>
+      <div class="error" id="error" hidden></div>
+    </section>
+
+    <section class="right">
+      <div class="stats">
+        <div class="statBox">
+          <div class="label">VLAŽNOST</div>
+          <div class="value" id="humidity">--%</div>
         </div>
 
-        <div class="forecast" id="forecast">
-          <!-- Popunjava JS -->
+        <div class="statBox">
+          <div class="label">VETAR</div>
+          <div class="value" id="wind">-- km/h</div>
         </div>
-      </section>
-    </div>
 
-    <div class="updated" id="updated">Ažurirano: --:--</div>
-    <div class="error" id="error" hidden></div>
-  </div>
+        <div class="statWide">
+          <div class="label">PRITISAK</div>
+          <div class="value" id="pressure">---- hPa</div>
+        </div>
+      </div>
+
+      <div class="forecast" id="forecast">
+        <!-- 3 kartice (popunjava JS) -->
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
 </body>
 </html>

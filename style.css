@@ -1,197 +1,178 @@
-:root{
-  --w: 980px;
-  --h: 280px;
-  --gap: 10px;
-  --r: 18px;
+/* ====== RESET / BASE ====== */
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; width:980px; height:280px; overflow:hidden; }
 
-  --fg: #f2f6ff;
-  --muted: rgba(242,246,255,.78);
-
-  /* čitljiv dark glass */
-  --cardA: rgba(12, 18, 34, .78);
-  --cardB: rgba(20, 30, 56, .72);
-  --stroke: rgba(255,255,255,.16);
-  --shadow: 0 18px 38px rgba(0,0,0,.38);
-}
-
-html,body{
-  width:100%;
-  height:100%;
-  margin:0;
-  background: transparent;   /* TRANSPARENT PAGE */
-  overflow:hidden;
+/* Transparentna pozadina (za signage overlay) */
+body{
+  background: transparent;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--fg);
 }
 
+/* ====== WIDGET WRAPPER ====== */
 .widget{
-  width: var(--w);
-  height: var(--h);
+  width:980px;
+  height:280px;
   display:grid;
-  grid-template-columns: 420px 1fr;
-  gap: var(--gap);
-  padding: 10px;
-  box-sizing:border-box;
-  background: transparent;   /* TRANSPARENT WIDGET */
+  grid-template-columns: 360px 1fr; /* levo info, desno kartice */
+  gap:14px;
+  padding:14px;
 }
 
-.left{
-  border-radius: var(--r);
-  padding: 18px;
-  box-sizing:border-box;
+/* Kartice: tamne, ali čitljive */
+:root{
+  --card: rgba(18, 26, 44, 0.88);
+  --card2: rgba(18, 26, 44, 0.78);
+  --text: rgba(255,255,255,0.96);
+  --muted: rgba(255,255,255,0.72);
+  --shadow: 0 10px 30px rgba(0,0,0,0.25);
+  --radius: 18px;
+}
 
-  background: linear-gradient(180deg, var(--cardB), var(--cardA));
-  border: 1px solid var(--stroke);
+/* ====== LEFT ====== */
+.left{
+  background: var(--card);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
+  padding:16px 18px;
+  color: var(--text);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
 .place{
-  font-size: 44px;
-  font-weight: 900;
-  line-height: 1;
-  margin-bottom: 10px;
-  text-shadow: 0 8px 18px rgba(0,0,0,.45);
+  font-size:40px;
+  font-weight:800;
+  letter-spacing:0.2px;
 }
 
 .tempRow{
   display:flex;
   align-items:center;
-  gap: 16px;
+  gap:16px;
+  margin-top:6px;
 }
 
 .temp{
-  font-size: 96px;
-  font-weight: 950;
-  letter-spacing: -2px;
-  line-height: 1;
-  text-shadow: 0 14px 24px rgba(0,0,0,.45);
+  font-size:92px;
+  font-weight:900;
+  line-height:1;
 }
 
 .wicon{
-  width: 86px;
-  height: 86px;
-  object-fit: contain;
-  filter: drop-shadow(0 14px 18px rgba(0,0,0,.55));
+  width:92px;
+  height:92px;
+  object-fit:contain;
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.25));
 }
 
 .desc{
-  margin-top: 10px;
-  font-size: 40px;
-  font-weight: 900;
-  line-height: 1.05;
-  text-shadow: 0 10px 18px rgba(0,0,0,.5);
+  font-size:42px;
+  font-weight:800;
+  line-height:1.05;
+  margin-top:6px;
 }
 
 .updated{
-  margin-top: 8px;
-  font-size: 14px;
+  font-size:16px;
   color: var(--muted);
+  margin-top:8px;
 }
 
 .error{
-  margin-top: 6px;
-  font-size: 14px;
-  color: #ffb3b3;
+  margin-top:6px;
+  font-size:14px;
+  color: #ffb4b4;
 }
 
+/* ====== RIGHT ====== */
 .right{
   display:grid;
-  grid-template-rows: 78px 1fr; /* stats row + forecast row */
-  gap: var(--gap);
+  grid-template-rows: 88px 1fr; /* stats red + forecast red */
+  gap:12px;
 }
 
-/* 3 stats u JEDNOM REDU */
+/* 3 kartice u jednom redu */
 .stats{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap);
+  gap:12px;
 }
 
-.statBox,
-.statWide{
+.statBox{
+  background: var(--card);
   border-radius: 16px;
-  padding: 10px 12px;
-  box-sizing:border-box;
-
-  background: linear-gradient(180deg, var(--cardB), var(--cardA));
-  border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-
+  padding:12px 14px;
+  color: var(--text);
   display:flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction:column;
+  justify-content:center;
+  min-height:88px;
 }
-
-/* statWide NE SME da gura 2 reda – ponaša se kao normalan box */
-.statWide{ }
 
 .label{
-  font-size: 12px;
-  letter-spacing: .14em;
-  font-weight: 900;
-  color: rgba(242,246,255,.76);
-  margin-bottom: 6px;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:1px;
+  color: var(--muted);
 }
 
 .value{
-  font-size: 32px;
-  font-weight: 950;
-  line-height: 1;
+  font-size:34px;
+  font-weight:900;
+  margin-top:4px;
 }
 
-/* forecast ispod */
+/* Forecast red (3 kartice) */
 .forecast{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap);
-  height: 100%;
+  gap:12px;
 }
 
+/* JS ubacuje .fcard */
 .fcard{
+  background: var(--card2);
   border-radius: 16px;
-  padding: 10px 12px;
-  box-sizing:border-box;
-
-  background: linear-gradient(180deg, var(--cardB), var(--cardA));
-  border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-
-  display:grid;
-  grid-template-rows: 16px 1fr 16px;
-  gap: 6px;
+  padding:12px 12px;
+  color: var(--text);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height: 166px; /* da stane u 280 uz stats */
 }
 
 .fday{
-  font-size: 12px;
-  letter-spacing: .14em;
-  font-weight: 950;
-  color: rgba(242,246,255,.82);
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:1px;
+  color: var(--muted);
 }
 
 .frow{
   display:flex;
   align-items:center;
-  justify-content: space-between;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:4px;
 }
 
 .ficon{
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
-  filter: drop-shadow(0 12px 14px rgba(0,0,0,.55));
+  width:56px;
+  height:56px;
+  object-fit:contain;
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.25));
 }
 
 .ftemp{
-  font-size: 32px;
-  font-weight: 950;
-  line-height: 1;
+  font-size:38px;
+  font-weight:900;
 }
 
 .fminmax{
-  font-size: 13px;
-  color: rgba(242,246,255,.78);
-  font-weight: 800;
+  font-size:16px;
+  font-weight:800;
+  color: var(--muted);
 }

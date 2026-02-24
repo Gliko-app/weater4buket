@@ -1,5 +1,5 @@
 // ====== OPENWEATHER KEY (UBACI OVDE) ======
-const OPENWEATHER_KEY = "8edbd4ecf027fb7bd3f516b2d658fbd9";
+const OPENWEATHER_KEY = "PASTE_YOUR_KEY_HERE";
 
 // Lokacija (Zlatibor - možeš promeniti)
 const LAT = 43.7286;
@@ -8,20 +8,17 @@ const LON = 19.7000;
 // Refresh na 10 minuta
 const REFRESH_MIN = 10;
 
-// --- DOM helpers ---
 const $ = (id) => document.getElementById(id);
 
-// --- Serbian latin day labels ---
+// Serbian latin day labels
 const DAY3 = ["NED", "PON", "UTO", "SRE", "ČET", "PET", "SUB"];
 
-// --- Cyrillic -> Latin transliteration (da opis ne bude ćirilica) ---
+// Cyrillic -> Latin transliteration (da opis ne bude ćirilica)
 const c2lMap = {
   "А":"A","Б":"B","В":"V","Г":"G","Д":"D","Ђ":"Đ","Е":"E","Ж":"Ž","З":"Z","И":"I","Ј":"J","К":"K","Л":"L","Љ":"Lj","М":"M","Н":"N","Њ":"Nj","О":"O","П":"P","Р":"R","С":"S","Т":"T","Ћ":"Ć","У":"U","Ф":"F","Х":"H","Ц":"C","Ч":"Č","Џ":"Dž","Ш":"Š",
   "а":"a","б":"b","в":"v","г":"g","д":"d","ђ":"đ","е":"e","ж":"ž","з":"z","и":"i","ј":"j","к":"k","л":"l","љ":"lj","м":"m","н":"n","њ":"nj","о":"o","п":"p","р":"r","с":"s","т":"t","ћ":"ć","у":"u","ф":"f","х":"h","ц":"c","ч":"č","џ":"dž","ш":"š"
 };
-function cyrToLat(str = ""){
-  return str.split("").map(ch => c2lMap[ch] ?? ch).join("");
-}
+function cyrToLat(str=""){ return str.split("").map(ch => c2lMap[ch] ?? ch).join(""); }
 
 function toKmH(ms){ return Math.round(ms * 3.6); }
 
@@ -31,45 +28,9 @@ function fmtUpdated(tsSec){
   return `Ažurirano: ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-// ---- ICONS: basmilius SVG + fallback to OpenWeather PNG ----
-function openWeatherPng(iconCode){
-  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-}
-
+// OpenWeather icons (pouzdano). @2x postoji, uvećamo ga CSS-om.
 function iconUrl(iconCode){
-  // Basmilius weather-icons (pouzdani nazivi)
-  const map = {
-    "01d": "clear-day",
-    "01n": "clear-night",
-
-    "02d": "partly-cloudy-day",
-    "02n": "partly-cloudy-night",
-
-    "03d": "cloudy",
-    "03n": "cloudy",
-
-    "04d": "overcast",
-    "04n": "overcast",
-
-    "09d": "drizzle",
-    "09n": "drizzle",
-
-    "10d": "rain",
-    "10n": "rain",
-
-    "11d": "thunderstorms",
-    "11n": "thunderstorms",
-
-    "13d": "snow",
-    "13n": "snow",
-
-    "50d": "fog",
-    "50n": "fog"
-  };
-
-  const icon = map[iconCode] || "cloudy";
-  // Ako želiš outline ikonice: zameni /fill/ sa /line/
-  return `https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/svg/${icon}.svg`;
+  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
 }
 
 function setError(msg){
@@ -98,31 +59,73 @@ async function fetchJson(url){
   return r.json();
 }
 
+// Background “wow” po vremenu + dan/noć
+function setWowBackground(iconCode){
+  const bg = document.querySelector(".bg");
+  if(!bg) return;
+
+  const isNight = iconCode?.endsWith("n");
+
+  // grupa po vremenu
+  const group =
+    iconCode?.startsWith("01") ? "clear" :
+    iconCode?.startsWith("02") ? "partly" :
+    (iconCode?.startsWith("03") || iconCode?.startsWith("04")) ? "cloudy" :
+    (iconCode?.startsWith("09") || iconCode?.startsWith("10")) ? "rain" :
+    iconCode?.startsWith("11") ? "storm" :
+    iconCode?.startsWith("13") ? "snow" :
+    iconCode?.startsWith("50") ? "fog" : "cloudy";
+
+  // ručno podešeni “premium” gradijenti
+  const palettes = {
+    clear: isNight
+      ? "radial-gradient(700px 340px at 30% 30%, rgba(120,170,255,.35) 0%, rgba(40,90,210,.22) 35%, rgba(10,18,40,1) 100%)"
+      : "radial-gradient(700px 340px at 28% 30%, rgba(255,220,120,.65) 0%, rgba(255,150,70,.28) 36%, rgba(30,120,255,.16) 66%, rgba(10,18,40,1) 100%)",
+    partly: isNight
+      ? "radial-gradient(700px 340px at 28% 30%, rgba(120,170,255,.35) 0%, rgba(60,100,220,.22) 38%, rgba(10,18,40,1) 100%)"
+      : "radial-gradient(700px 340px at 28% 30%, rgba(255,210,120,.55) 0%, rgba(255,150,70,.22) 36%, rgba(60,140,255,.18) 70%, rgba(10,18,40,1) 100%)",
+    cloudy: isNight
+      ? "radial-gradient(700px 340px at 30% 30%, rgba(120,160,220,.22) 0%, rgba(40,70,150,.20) 40%, rgba(10,18,40,1) 100%)"
+      : "radial-gradient(700px 340px at 30% 30%, rgba(200,220,255,.28) 0%, rgba(90,140,220,.18) 45%, rgba(10,18,40,1) 100%)",
+    rain: isNight
+      ? "radial-gradient(700px 340px at 35% 30%, rgba(120,170,255,.22) 0%, rgba(30,60,140,.22) 42%, rgba(10,18,40,1) 100%)"
+      : "radial-gradient(700px 340px at 35% 30%, rgba(160,210,255,.28) 0%, rgba(70,140,240,.20) 42%, rgba(10,18,40,1) 100%)",
+    storm: isNight
+      ? "radial-gradient(700px 340px at 35% 30%, rgba(160,120,255,.18) 0%, rgba(30,40,120,.22) 48%, rgba(10,18,40,1) 100%)"
+      : "radial-gradient(700px 340px at 35% 30%, rgba(190,170,255,.22) 0%, rgba(80,110,230,.20) 48%, rgba(10,18,40,1) 100%)",
+    snow: isNight
+      ? "radial-gradient(700px 340px at 30% 30%, rgba(200,230,255,.22) 0%, rgba(60,100,200,.18) 50%, rgba(10,18,40,1) 100%)"
+      : "radial-gradient(700px 340px at 30% 30%, rgba(240,250,255,.34) 0%, rgba(120,170,230,.18) 55%, rgba(10,18,40,1) 100%)",
+    fog: isNight
+      ? "radial-gradient(700px 340px at 30% 30%, rgba(180,200,220,.16) 0%, rgba(40,60,120,.20) 50%, rgba(10,18,40,1) 100%)"
+      : "radial-gradient(700px 340px at 30% 30%, rgba(220,230,245,.22) 0%, rgba(120,150,200,.16) 55%, rgba(10,18,40,1) 100%)",
+  };
+
+  bg.style.background = palettes[group] || palettes.cloudy;
+}
+
 function pickNext3DaysFromForecast(list){
-  // list = 3h forecast; biramo po jedan entry oko 12:00 lokalno za naredna 3 dana
+  // 3h forecast; uzmi po jedan slot najbliži 12:00 za naredna 3 dana (sutra +2)
   const byDate = new Map();
 
   for (const item of list){
     const d = new Date(item.dt * 1000);
-    const key = d.toISOString().slice(0,10); // YYYY-MM-DD (UTC key)
+    const key = d.toISOString().slice(0,10);
     if (!byDate.has(key)) byDate.set(key, []);
     byDate.get(key).push(item);
   }
 
   const keys = Array.from(byDate.keys()).sort();
-  const now = new Date();
-  const todayKey = now.toISOString().slice(0,10);
+  const todayKey = new Date().toISOString().slice(0,10);
 
   const futureKeys = keys.filter(k => k >= todayKey).slice(0, 4); // today + 3
   const take = futureKeys.length >= 4 ? futureKeys.slice(1,4) : futureKeys.slice(0,3);
 
   const result = [];
-
   for (const k of take){
     const items = byDate.get(k) || [];
     if (!items.length) continue;
 
-    // nađi najbliži 12:00
     let best = items[0];
     let bestDiff = Infinity;
     for (const it of items){
@@ -134,7 +137,6 @@ function pickNext3DaysFromForecast(list){
       }
     }
 
-    // min/max tog dana iz svih slotova
     let min = Infinity, max = -Infinity;
     for (const it of items){
       min = Math.min(min, it.main.temp_min);
@@ -148,8 +150,7 @@ function pickNext3DaysFromForecast(list){
       min, max
     });
   }
-
-  return result.slice(0, 3);
+  return result;
 }
 
 function renderForecast(days){
@@ -173,7 +174,6 @@ function renderForecast(days){
     const img = document.createElement("img");
     img.className = "ficon";
     img.alt = "Ikonica";
-    img.onerror = () => { img.src = openWeatherPng(d.icon); }; // fallback
     img.src = iconUrl(d.icon);
 
     const t = document.createElement("div");
@@ -190,7 +190,6 @@ function renderForecast(days){
     card.appendChild(top);
     card.appendChild(row);
     card.appendChild(mm);
-
     wrap.appendChild(card);
   }
 }
@@ -203,7 +202,6 @@ async function loadWeather(){
 
   setLoading();
 
-  // Namerno lang=sr da dobijemo srpski opis, pa ga transliterujemo u latinicu.
   const base = "https://api.openweathermap.org/data/2.5";
   const q = `lat=${LAT}&lon=${LON}&appid=${encodeURIComponent(OPENWEATHER_KEY)}&units=metric&lang=sr`;
 
@@ -226,13 +224,14 @@ async function loadWeather(){
     $("humidity").textContent = `${hum}%`;
     $("wind").textContent = `${wind} km/h`;
     $("pressure").textContent = `${pres} hPa`;
-    $("desc").textContent = descLat ? (descLat[0].toUpperCase() + descLat.slice(1)) : "-";
-    $("updated").textContent = fmtUpdated(current.dt);
 
-    // main icon + fallback
-    const mainIconEl = $("icon");
-    mainIconEl.onerror = () => { mainIconEl.src = openWeatherPng(icon); };
-    mainIconEl.src = iconUrl(icon);
+    const niceDesc = descLat ? (descLat[0].toUpperCase() + descLat.slice(1)) : "-";
+    $("desc").textContent = niceDesc;
+
+    $("updated").textContent = fmtUpdated(current.dt);
+    $("icon").src = iconUrl(icon);
+
+    setWowBackground(icon);
 
     const next3 = pickNext3DaysFromForecast(forecast.list || []);
     renderForecast(next3);

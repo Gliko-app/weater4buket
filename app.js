@@ -1,5 +1,5 @@
 // ====== OPENWEATHER KEY (UBACI OVDE) ======
-const OPENWEATHER_KEY = "PASTE_YOUR_KEY_HERE";
+const OPENWEATHER_KEY = "8edbd4ecf027fb7bd3f516b2d658fbd9";
 
 // Lokacija (Zlatibor - možeš promeniti)
 const LAT = 43.7286;
@@ -245,3 +245,4 @@ async function loadWeather(){
 
 loadWeather();
 setInterval(loadWeather, REFRESH_MIN * 60 * 1000);
+

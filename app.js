@@ -32,8 +32,38 @@ function fmtUpdated(tsSec){
 }
 
 function iconUrl(iconCode){
-  // OpenWeather icons
-  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  const map = {
+    "01d": "sun",
+    "01n": "moon",
+
+    "02d": "cloud-sun",
+    "02n": "cloud-moon",
+
+    "03d": "cloud",
+    "03n": "cloud",
+
+    "04d": "cloud",
+    "04n": "cloud",
+
+    "09d": "cloud-drizzle",
+    "09n": "cloud-drizzle",
+
+    "10d": "cloud-rain",
+    "10n": "cloud-rain",
+
+    "11d": "cloud-lightning",
+    "11n": "cloud-lightning",
+
+    "13d": "cloud-snow",
+    "13n": "cloud-snow",
+
+    "50d": "cloud-fog",
+    "50n": "cloud-fog"
+  };
+
+  const icon = map[iconCode] || "cloud";
+
+  return `https://cdn.jsdelivr.net/gh/basmilius/weather-icons/production/fill/svg/${icon}.svg`;
 }
 
 function setError(msg){
@@ -205,3 +235,4 @@ async function loadWeather(){
 
 loadWeather();
 setInterval(loadWeather, REFRESH_MIN * 60 * 1000);
+

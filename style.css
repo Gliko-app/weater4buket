@@ -1,242 +1,215 @@
 :root{
+  --fg: #f3f6ff;
+  --muted: rgba(243,246,255,.78);
+
+  --stroke: rgba(255,255,255,.12);
+
+  /* glass */
+  --glass: rgba(255,255,255,.12);
+  --glass2: rgba(255,255,255,.18);
+
+  /* accent */
+  --accent: #8fb6ff;
+
+  /* layout */
   --w: 980px;
   --h: 280px;
 
-  --glass: rgba(255,255,255,.10);
-  --glass2: rgba(255,255,255,.14);
-  --stroke: rgba(255,255,255,.18);
-
-  --text: rgba(255,255,255,.95);
-  --muted: rgba(255,255,255,.70);
-
-  --accent: 255, 210, 90; /* “sun glow” */
-  --radius: 22px;
+  --radius: 18px;
+  --gap: 10px;
 }
 
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-body{
-  margin:0;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  background:#0b1020;
+/* TRANSPARENT CANVAS */
+html, body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  overflow: hidden;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--fg);
 }
 
 .widget{
-  width:var(--w);
-  height:var(--h);
-  position:relative;
-  overflow:hidden;
-  border-radius: 28px;
-  color:var(--text);
-  padding: 18px 18px;
-  display:grid;
-  grid-template-columns: 380px 1fr;
-  gap: 18px;
-  box-shadow:
-    0 18px 50px rgba(0,0,0,.45),
-    inset 0 0 0 1px rgba(255,255,255,.12);
+  width: var(--w);
+  height: var(--h);
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: var(--gap);
+  padding: 10px;
+  box-sizing: border-box;
+
+  /* NEMA background-a da bude transparent */
+  background: transparent;
 }
 
-/* Background layers */
-.bg{
-  position:absolute; inset:0;
-  background: radial-gradient(700px 320px at 25% 35%,
-      rgba(255,210,90,.55) 0%,
-      rgba(255,160,70,.25) 28%,
-      rgba(40,120,255,.18) 60%,
-      rgba(10,18,40,1) 100%);
-  filter:saturate(1.2);
-  z-index:0;
-}
-.noise{
-  position:absolute; inset:0;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-  opacity:.35;
-  z-index:1;
-}
-
-.left,.right{ position:relative; z-index:2; }
-
+/* LEFT PANEL */
 .left{
-  padding: 8px 6px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap: 8px;
+  height: calc(var(--h) - 20px);
+  border-radius: var(--radius);
+  padding: 18px 18px 14px;
+  box-sizing: border-box;
+
+  /* malo “glow” ali i dalje transparentno iza */
+  background: radial-gradient(120% 120% at 20% 20%, rgba(143,182,255,.22), rgba(0,0,0,0));
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(10px);
 }
 
 .place{
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 800;
-  letter-spacing: .2px;
-  text-shadow: 0 10px 30px rgba(0,0,0,.35);
+  letter-spacing: .3px;
+  line-height: 1;
+  margin-bottom: 10px;
 }
 
-.hero{
-  display:flex;
-  align-items:center;
-  gap: 18px;
+.tempRow{
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-top: 2px;
 }
 
 .temp{
-  font-size: 108px;
+  font-size: 96px;
   font-weight: 900;
-  line-height: .92;
+  line-height: 1;
   letter-spacing: -2px;
-  text-shadow: 0 16px 40px rgba(0,0,0,.42);
 }
 
-.iconWrap{
-  position:relative;
-  width: 96px;
-  height: 96px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.iconGlow{
-  position:absolute;
-  inset:-28px;
-  border-radius: 50%;
-  background: radial-gradient(circle,
-    rgba(var(--accent), .85) 0%,
-    rgba(var(--accent), .22) 34%,
-    rgba(var(--accent), 0) 70%);
-  filter: blur(2px);
-  opacity:.9;
-}
 .wicon{
-  width: 92px;
-  height: 92px;
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
   filter:
-    drop-shadow(0 16px 22px rgba(0,0,0,.45))
-    drop-shadow(0 0 22px rgba(var(--accent), .22));
+    drop-shadow(0 10px 18px rgba(0,0,0,.35))
+    drop-shadow(0 0 18px rgba(143,182,255,.35));
 }
 
 .desc{
-  font-size: 44px;
-  font-weight: 750;
-  letter-spacing: .2px;
-  text-shadow: 0 14px 34px rgba(0,0,0,.35);
+  margin-top: 8px;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.05;
 }
 
 .updated{
-  font-size: 18px;
+  margin-top: 8px;
+  font-size: 16px;
   color: var(--muted);
-  margin-top: 2px;
 }
 
 .error{
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 16px;
-  color: rgba(255,220,220,.95);
-  background: rgba(255,0,0,.12);
-  border: 1px solid rgba(255,255,255,.14);
-  padding: 8px 10px;
-  border-radius: 12px;
+  color: #ffb3b3;
 }
 
-/* Right side layout */
+/* RIGHT PANEL */
 .right{
-  display:flex;
-  flex-direction:column;
-  gap: 12px;
-  padding: 4px 2px;
+  height: calc(var(--h) - 20px);
+  display: grid;
+  grid-template-rows: 78px 1fr; /* kompaktan top + forecast ispod */
+  gap: var(--gap);
 }
 
-/* ONE ROW: humidity / wind / pressure */
-.statsRow{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
+/* TOP STATS: 3 kartice u JEDNOM redu (kompaktno) */
+.stats{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
 }
 
-.statBox{
+.statBox, .statWide{
+  border-radius: 16px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+
   background: linear-gradient(180deg, var(--glass2), var(--glass));
   border: 1px solid var(--stroke);
-  border-radius: var(--radius);
-  padding: 12px 14px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 10px 28px rgba(0,0,0,.22);
+
+  display: grid;
+  grid-template-rows: 16px 1fr;
 }
 
 .label{
-  font-size: 14px;
-  letter-spacing: 2.2px;
+  font-size: 13px;
+  letter-spacing: .14em;
   font-weight: 800;
-  color: rgba(255,255,255,.80);
+  color: rgba(243,246,255,.75);
 }
 
 .value{
-  margin-top: 6px;
-  font-size: 38px;
+  font-size: 34px; /* manje da stane u 78px */
   font-weight: 900;
-  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-top: 4px;
 }
 
-/* Forecast row under stats */
+/* FORECAST */
 .forecast{
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  height: calc(var(--h) - 18px - 18px - 12px - 80px); /* safe */
-  align-content:stretch;
+  gap: var(--gap);
+  height: 100%;
 }
 
 .fcard{
-  background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.08));
-  border: 1px solid rgba(255,255,255,.16);
-  border-radius: var(--radius);
-  padding: 12px 12px;
+  border-radius: 16px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+
+  background: linear-gradient(180deg, var(--glass2), var(--glass));
+  border: 1px solid var(--stroke);
   backdrop-filter: blur(10px);
-  box-shadow: 0 10px 28px rgba(0,0,0,.20);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  min-height: 92px;
+
+  display: grid;
+  grid-template-rows: 16px 1fr 18px;
+  gap: 6px;
 }
 
 .fday{
+  font-size: 13px;
+  letter-spacing: .14em;
   font-weight: 900;
-  letter-spacing: 2.2px;
-  font-size: 16px;
-  color: rgba(255,255,255,.88);
+  color: rgba(243,246,255,.78);
 }
 
 .frow{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .ficon{
-  width: 56px;
-  height: 56px;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
   filter:
-    drop-shadow(0 12px 18px rgba(0,0,0,.40))
-    drop-shadow(0 0 16px rgba(var(--accent), .14));
+    drop-shadow(0 10px 14px rgba(0,0,0,.30))
+    drop-shadow(0 0 14px rgba(143,182,255,.28));
+  opacity: .95;
 }
 
 .ftemp{
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 900;
-  letter-spacing: -1px;
+  line-height: 1;
 }
 
 .fminmax{
-  font-size: 16px;
-  color: rgba(255,255,255,.78);
+  font-size: 14px;
+  color: rgba(243,246,255,.72);
   font-weight: 700;
 }
 
-/* Make sure nothing “ispada” */
+/* responsivnost (nije ključno za 980x280, ali nek bude) */
 @media (max-width: 980px){
-  body{ align-items:flex-start; }
+  .widget{
+    transform-origin: top left;
+    transform: scale(.9);
+  }
 }
